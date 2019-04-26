@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--log4j2日志输出配置-->
+<Configuration status="WARN" monitorInterval="300">
+    <Appenders>
+        <!--控制台打印基本配置-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <!--log日志文件的位置 -->
+        <RollingFile name="running-log" fileName="logs/running-log"
+                     filePattern="logs/$${date:yyyy-MM}/run.log-%d{yyyy-MM-dd}-%i.log.gz" immediateFlush="true">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SS} %level [%thread][%file:%line] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <!-- 日志文件大小 -->
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <!-- 最多保留文件数 -->
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="debug">
+            <!-- 这里是输入到文件，很重要 -->
+            <AppenderRef ref="logs/running-log"/>
+            <!--输出到控制台-->
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

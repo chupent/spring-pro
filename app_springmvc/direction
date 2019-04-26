@@ -1,0 +1,7 @@
+1实现aop的几种方式
+
+2、spring实现AOP做法
+  a、经典方式实现
+  b、AspectJ提供的注解实现
+  c、使用Spring来定义纯粹的POJO切面
+4、AOP实现异常的处理
