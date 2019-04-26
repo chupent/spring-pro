@@ -1,0 +1,40 @@
+
+【JPA】Java Persistence API（Java 持久层 API）：用于对象持久化的 API，作用使得应用程序以统一的方式访问持久层
+
+【JPA 与 Hibernate究竟是什么关系】
+    1）JPA 是 Hibernate 的一个抽象，就像 JDBC 和 JDBC 驱动的关系
+    2）JPA 是一种 ORM 规范，是 Hibernate 功能的一个子集 (既然 JPA 是规范，Hibernate 对 JPA 进行了扩展，那么说 JPA 是 Hibernate 的一个子集不为过)
+    3）Hibernate 是 JPA 的一个实现
+
+【JPA 包括三个方面的技术】
+    1) ORM 映射元数据，支持 XML 和 JDK 注解两种元数据的形式
+    2）JPA 的 API
+    3）查询语言：JPQL
+
+【JPA 的基本注解】
+    @Entity:修饰实体类,指定该类jiang映射到指定的表
+    @Table：当实体类与表名不同事使用
+    @Id ：标识主键
+    @GeneratedValue：标注主键的生成策略，通过其 strategy 属性。
+    @Basic：用于没有任何标注的 getXxx() 方法，默认即为 @Basic,所以若一个 getter 方法无任何注解，可以使用 @Basic 注解，也可以不使用
+    @Column：当实体的属性与其映射的数据表的列不同名时使用，一般用于 getter 方法上。其 name 属性用来指明此属性在数据表中对应的列名；unique 属性指明是否为唯一约束；nullable 属性用来指明是否可以为空，false 为不能为空；length 属性指明此列的长度。
+    @Transient 标注此注解后在创建数据表的时候将会忽略该属性
+    @Temporal 向数据库映射日期（Date）属性时用来调整映射的精度。
+
+----------------------------------------------------------------------------------------------------------------
+
+    Repository:仅仅只是一个标识，没有任何方法，方便Spring自动扫描识别
+    CrudRepository:继承Repository，实现一组CRUD相关方法
+    JpaSpecificationExecutor:继承JpaSpecificationExecutor
+    PagingAndStortingRepository:继承CrudRepository，实现一组分页排序相关方法
+    JpaRepository:继承PagingAndStortingRepository，QueryByExampleExecutor 实现一组JPA规范方法
+
+----------------------------------------------------------------------------------------------------------------
+【多表关联查询】
+	一对一关系（主表和详情表）
+	一对多关系（一张主表，多张子表）
+	多对多关系（如权限控制，用户、角色多对多）
+【@Query】
+    @Query原生Sql多表联合查询
+【CriteriaQuery动态查询】
+    JPA多条件组合查询
