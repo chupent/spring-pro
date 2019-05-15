@@ -1,18 +1,24 @@
 package com.wx.cp.web;
 
-import api.OauthApi;
-import bean.oauth.OauthAccessToken;
-import bean.WechatError;
+
+import wechat.Wechat;
+import wechat.bean.oauth.OauthAccessToken;
+import wechat.bean.WechatError;
 import com.wx.cp.api.WeChatApi;
-import kit.CallBackApi;
+import com.wx.cp.comm.root.RootController;
+import com.wx.cp.comm.util.ResultDispose;
+import com.wx.cp.comm.net.RequestBody;
+import com.wx.cp.model.ResultOut;
+import wechat.kit.CallBackApi;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.io.IOException;
 
 
 /**
@@ -23,38 +29,56 @@ import javax.servlet.http.HttpSession;
  * @createdate 2019/4/4 星期四 17:48
  */
 @Controller
-public class WeChatController implements WeChatApi {
-    private org.slf4j.Logger LOG = LoggerFactory.getLogger(getClass());
-    private String pageName;
+public class WeChatController extends RootController implements WeChatApi {
+    private Logger LOG = LoggerFactory.getLogger(getClass());
+
     @Override
-    public String authorizeCallBack(HttpServletRequest request, HttpServletResponse response) {
-        LOG.info("微信调用授权成功！");
+    public void authorizeCallBack(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        pageName = "main";
+        String code = request.getParameter("code");
+        LOG.info("授权地址:"+code);
+
         try {
-            String code = request.getParameter("code");
-            LOG.info("授权地址:"+code);
-            OauthApi oauthApi = new OauthApi();
-            CallBackApi<OauthAccessToken> callBackApi = new CallBackApi<OauthAccessToken>() {
+            Wechat.OAUTH_API.getAccessToken(code, new CallBackApi<OauthAccessToken>() {
                 @Override
                 public void succeed(OauthAccessToken oauthAccessToken) {
-                    LOG.info("授权成功:"+oauthAccessToken.getOpenid()+"   "+oauthAccessToken.getScope());
-                    session.setAttribute("OauthAccessToken", oauthAccessToken);
-                }
+                    LOG.info("授权成功:"+oauthAccessToken.getOpenid()+" ,  "+oauthAccessToken.getScope());
 
+                    session.setAttribute("OauthAccessToken", oauthAccessToken); //记录授权
+
+                    //重新请求授权前发出的请求
+                    RequestBody requestBody = (RequestBody) request.getSession().getAttribute("requestBody");
+                    if(null!=requestBody){
+                        String url =  requestBody.getUrl()+"?"+requestBody.getParams();
+                        try {
+                            request.getRequestDispatcher(url).forward(request, response); //带文件上传的特殊处理
+                        } catch (ServletException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 @Override
                 public void fail(WechatError error) {
                     LOG.info("授权失败:"+error.getErrcode()+"   "+error.getErrmsg());
-                    request.setAttribute("code",code);
-                    request.setAttribute("errcode",error.getErrcode());
-                    request.setAttribute("errmsg",error.getErrmsg());
-                    pageName = "auth";
+                    try {
+                        ResultDispose.toJsonResult(
+                                response.getOutputStream(),
+                                ResultOut.getResult(403,"微信授权失败,请重新授权!",code));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            };
-            oauthApi.getAccessToken(code, callBackApi);
+            });
         } catch (Exception e) {
-
+            try {
+                ResultDispose.toJsonResult(
+                        response.getOutputStream(),
+                        ResultOut.getResult(403,"微信授权失败,请重新授权!",code));
+            } catch (IOException e1) {
+                e.printStackTrace();
+            }
         }
-        return pageName;
     }
 }

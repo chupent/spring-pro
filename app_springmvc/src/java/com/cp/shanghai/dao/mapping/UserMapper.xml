@@ -17,10 +17,10 @@
 
     <!--登录信息-->
     <select id="queryUserInfo" resultMap="resUserInfo">
-        select u.account,u.user_name,u.token,u.header_url from tb_user u where u.token=#{token}
+        select u.account,u.user_name,u.token,u.header_url from sys_user u where u.token=#{token}
     </select>
     <!--更新token-->
     <update id="updateToken">
-        update tb_user set token=#{token},update_date=sysdate() where account=#{account} and password=#{password}
+        update sys_user set token=#{token},update_date=sysdate() where account=#{account} and password=#{password}
     </update>
 </mapper>

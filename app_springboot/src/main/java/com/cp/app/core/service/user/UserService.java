@@ -1,6 +1,5 @@
 package com.cp.app.core.service.user;
 
-import com.cp.app.core.api.UserApi;
 import com.cp.app.core.dao.jpa.SysUserRepository;
 import com.cp.app.core.model.bean.SysUser;
 import com.cp.app.core.model.pojo.ApiResponse;

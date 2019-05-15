@@ -1,7 +1,8 @@
 package com.wx.cp.api;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.wx.cp.comm.root.RootApi;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Description TODO
  * @createdate 2019/4/6 星期六 04:18
  */
-public interface WeChatApi extends RootApi{
-    @GetMapping("/wechat/apiAuthorizeCallBack")
-    String authorizeCallBack(HttpServletRequest request, HttpServletResponse response);
+public interface WeChatApi extends RootApi {
+    @PostMapping("/wechat/apiAuthorizeCallBack")
+    void authorizeCallBack(HttpServletRequest request, HttpServletResponse response);
 }

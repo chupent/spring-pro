@@ -1,8 +1,15 @@
 package com.wx.cp.web.user;
-
-import com.wx.cp.comm.ResultOut;
+import com.wx.cp.api.user.UserApi;
+import com.wx.cp.model.ResultOut;
+import com.wx.cp.model.bean.user.UserBean;
+import com.wx.cp.comm.root.RootController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author chupengtang
@@ -12,10 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @createdate 2019/4/4 星期四 17:36
  */
 @RestController
-public class UserController {
-    @GetMapping("/app/user/userinfo")
-    public ResultOut<String> userinfo(){
-        ResultOut<String> resultOut = new ResultOut<>();
-        return resultOut;
+public class UserController extends RootController implements UserApi {
+
+    @Autowired
+    @Qualifier("userService")
+    private UserApi userService;
+
+    @ModelAttribute
+    public void initUser(HttpSession session){
+        //此方法会在每次请求前调用（这个类的处理方法）
+    }
+
+    @GetMapping("/user/userinfo")
+    public ResultOut<UserBean> userinfo() {
+        return userService.userinfo();
     }
 }

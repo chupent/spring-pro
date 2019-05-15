@@ -1,6 +1,6 @@
 package com.wx.cp.configuration;
 
-import com.wx.cp.filter.WeChatAuthorizationFilter;
+import com.wx.cp.configuration.filter.WeChatAuthorizationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
