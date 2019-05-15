@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author chupengtang
  * @version 1.0
  * @ClassName JWTAuthorizationFilter
- * @Description TODO
+ * @Description TODO 登录过滤器<访问login接口时进入此过滤器>
  * 该类继承自UsernamePasswordAuthenticationFilter
  * attemptAuthentication ：接收并解析用户凭证。
  * 拦截登录请求，AuthenticationManager 验证用户名密码正确后，生成一个token，并将token返回给客户端
@@ -30,9 +30,9 @@ public class JWTAuthorizationFilter extends UsernamePasswordAuthenticationFilter
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
         logger.info("创建登录过滤器:UsernamePasswordAuthenticationFilter");
         this.authenticationManager = authenticationManager;
-        this.setAuthenticationFailureHandler(new SystemAuthenticationFailureHandler());
-        //实现successfulAuthentication方法后设置setAuthenticationSuccessHandler方法就无效了，优先它。
-        this.setAuthenticationSuccessHandler(new SystemAuthenticationSuccessHandler());
+        //实现successfulAuthentication方法后设置setAuthenticationSuccessHandler方法就无效了，前者优先后者。
+        this.setAuthenticationFailureHandler(new SystemAuthenticationFailureHandler());//登录失败通知
+        this.setAuthenticationSuccessHandler(new SystemAuthenticationSuccessHandler());//登录成功通知
     }
 
     @Override

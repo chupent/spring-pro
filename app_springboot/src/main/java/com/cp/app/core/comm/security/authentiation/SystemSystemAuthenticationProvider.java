@@ -30,7 +30,6 @@ public class SystemSystemAuthenticationProvider implements AuthenticationProvide
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         logger.info("密码校验");
-
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         SystemUserDetails sysUser = (SystemUserDetails) systemUserDetailsService.loadUserByUsername(username);
@@ -45,7 +44,6 @@ public class SystemSystemAuthenticationProvider implements AuthenticationProvide
             throw new UsernameNotFoundException("用户不存在");
         }
     }
-
     /**
      * 是否可以提供输入类型的认证服务
      * @param authentication
