@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -24,19 +26,15 @@ public class ResultDispose {
      */
     public static<T> void toJsonResult(OutputStream os,T t){
         ObjectMapper om = new MappingJackson2HttpMessageConverter().getObjectMapper();
-        OutputStreamWriter osw  = null;
         try {
-            osw =new OutputStreamWriter(os,"UTF-8");
-            om.writeValue(osw,t);
-            os.flush();
-            os.close();
+            om.writeValue(new OutputStreamWriter(os,"UTF-8"),t);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
             e.printStackTrace();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
