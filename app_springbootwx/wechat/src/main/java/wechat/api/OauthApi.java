@@ -3,6 +3,8 @@ package wechat.api;
 import wechat.bean.oauth.OauthAccessToken;
 import wechat.bean.WechatUserInfo;
 import wechat.kit.*;
+import wechat.kit.net.HttpKit;
+import wechat.kit.net.ResposeBody;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -32,7 +34,7 @@ public class OauthApi {
      * 用户同意授权,获取code
      * @return code
      */
-    public String getCode() throws UnsupportedEncodingException {
+    public static String getCode() throws UnsupportedEncodingException {
         StringBuilder builder = new StringBuilder();
         builder.append("?appid=").append(ConfKit.getValue("AppId"))
                .append("&redirect_uri=").append(ConfKit.getValue("DomainName")).append(ConfKit.getValue("RedirectUri"))
@@ -43,37 +45,36 @@ public class OauthApi {
     /**
      * 获取网页授权AccessToken
      * @param code 用户收取同意后获取
-     * @param callBackApi 结果回调
      * @throws InterruptedException
      * @throws ExecutionException
      * @throws IOException
      */
-    public void getAccessToken(String code, CallBackApi<OauthAccessToken> callBackApi) throws InterruptedException, ExecutionException, IOException {
+    public  ResposeBody<OauthAccessToken> getAccessToken(String code) {
         Map<String,String> params = new HashMap<>();
         params.put("appid",ConfKit.getValue("AppId"));
         params.put("secret",ConfKit.getValue("AppSecret"));
         params.put("code",code);
         params.put("grant_type","authorization_code");
-        String body = HttpKit.get(Constant.OAUTH_ACCESS_TOKEN_URL,params);
-        if(null!=body&&!body.isEmpty()) callBackApi.formJosn(body,OauthAccessToken.class);
+
+        ResposeBody<OauthAccessToken> resposeBody = HttpKit.get(Constant.OAUTH_ACCESS_TOKEN_URL,params,OauthAccessToken.class);
+        return resposeBody;
     }
 
     /**
      * 刷新access_token，access_token拥有较短的有效期（7200s），当access_token超时后，可以使用refresh_token进行刷新，
      * refresh_token有效期为30天，当refresh_token失效之后，需要用户重新授权。
      * @param refreshToken
-     * @param callBackApi
      * @throws InterruptedException
      * @throws ExecutionException
      * @throws IOException
      */
-    public void getRefreshToken(String refreshToken, CallBackApi<OauthAccessToken> callBackApi) throws InterruptedException, ExecutionException, IOException {
+    public ResposeBody<OauthAccessToken> getRefreshToken(String refreshToken)  {
         Map<String,String> params = new HashMap<>();
         params.put("appid",ConfKit.getValue("AppId"));
         params.put("refresh_token",refreshToken);
         params.put("grant_type","refresh_token");
-        String body = HttpKit.get(Constant.OAUTH_ACCESS_TOKEN_URL,params);
-        if(null!=body&&!body.isEmpty()) callBackApi.formJosn(body,OauthAccessToken.class);
+        ResposeBody<OauthAccessToken> resposeBody = HttpKit.get(Constant.OAUTH_REFRESH_TOKEN_URL,params,OauthAccessToken.class);
+        return resposeBody;
     }
 
     /**
@@ -85,12 +86,16 @@ public class OauthApi {
      * @throws ExecutionException
      * @throws IOException
      */
-    public boolean checkAccessToken(String accessToken,String openid) throws InterruptedException, ExecutionException, IOException {
+    public boolean checkAccessToken(String accessToken,String openid)  {
         Map<String,String> params = new HashMap<>();
         params.put("access_token",accessToken);
         params.put("openid","openid");
-        String body = HttpKit.get(Constant.OAUTH_CHECK_URL,params);
-        return "{ \"errcode\":0,\"errmsg\":\"ok\"}".equalsIgnoreCase(body);
+        ResposeBody resposeBody =  HttpKit.get(Constant.OAUTH_CHECK_URL,params);
+        if(null!=resposeBody&&resposeBody.getErrcode()==0&&"ok".equals(resposeBody.getErrmsg())) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     /**
@@ -98,18 +103,16 @@ public class OauthApi {
      * @param accessToken 网页授权的access_token
      * @param openid 用户唯一标识
      * @param lang 响应语言选择
-     * @param callBackApi 结果回调
      * @throws InterruptedException
      * @throws ExecutionException
      * @throws IOException
      */
-    public void getUserInfo(String accessToken,String openid,Lang lang,CallBackApi<WechatUserInfo> callBackApi) throws InterruptedException, ExecutionException, IOException {
+    public ResposeBody<WechatUserInfo> getUserInfo(String accessToken,String openid,Lang lang)  {
         Map<String,String> params = new HashMap<>();
         params.put("access_token",accessToken);
         params.put("openid",openid);
         params.put("lang",lang.getName());
-        String body = HttpKit.get(Constant.OAUTH_USERINFO_URL,params);
-        if(null!=body&&!body.isEmpty()) callBackApi.formJosn(body,WechatUserInfo.class);
+        ResposeBody<WechatUserInfo> resposeBody = HttpKit.get(Constant.OAUTH_USERINFO_URL,params,WechatUserInfo.class);
+        return resposeBody;
     }
-
 }

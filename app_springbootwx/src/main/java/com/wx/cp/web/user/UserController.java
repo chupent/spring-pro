@@ -5,9 +5,7 @@ import com.wx.cp.model.bean.user.UserBean;
 import com.wx.cp.comm.root.RootController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,7 +29,7 @@ public class UserController extends RootController implements UserApi {
     }
 
     @GetMapping("/user/userinfo")
-    public ResultOut<UserBean> userinfo() {
+    public  ResultOut<UserBean> userinfo() {
         return userService.userinfo();
     }
 }

@@ -29,7 +29,7 @@ public abstract class RootController {
      * @param name
      * @param object
      */
-    protected void getSessionAttribute(String name,Object object){
+    protected void setSessionAttribute(String name,Object object){
         session.setAttribute(name,object);
     }
 }

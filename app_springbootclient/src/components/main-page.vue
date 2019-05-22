@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <button @click="getdata">GET</button>
-    <button @click="postData">POST</button>
+    {{msg}}
   </div>
 </template>
 
@@ -9,7 +8,7 @@
   export default {
     data () {
       return {
-        msg: ''
+        msg: localStorage.getItem('message')
       }
     },methods:{
         getdata:function(event){
