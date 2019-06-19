@@ -1,4 +1,4 @@
-package com.cp.app.core.service;
+package com.cp.app.core.comm.basics;
 
 import com.cp.app.core.model.pojo.ApiResponse;
 
@@ -9,7 +9,7 @@ import com.cp.app.core.model.pojo.ApiResponse;
  * @Description TODO
  * @createdate 2019/4/3 星期三 11:01
  */
-public abstract class AbstractService {
+public abstract class BasicsService {
     /**
      * 装订成功结果集
      * @param data

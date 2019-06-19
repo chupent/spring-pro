@@ -1,4 +1,4 @@
-package com.cp.app.core.rabbitmq;
+package com.cp.app.core.comm.rabbitmq;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.cp.app.core.api;
+package com.cp.app.core.comm.basics;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description TODO
  * @createdate 2019/4/1 星期一 15:32
  */
-@RequestMapping("/api")
-public interface BaseApi {
+public interface BasicsApi {
 
 }

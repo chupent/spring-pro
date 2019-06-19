@@ -1,6 +1,6 @@
 package com.cp.app.core.web;
 
-import com.cp.app.core.comm.excption.SystemException;
+import com.cp.app.core.comm.basics.BasicsController;
 import com.cp.app.core.model.pojo.ApiResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,32 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @ControllerAdvice
 @ResponseBody
-public class ExceptionController {
-    @ExceptionHandler({Exception.class})
+public class ExceptionController extends BasicsController {
+    @ExceptionHandler({Exception.class,NullPointerException.class,ClassCastException.class,ArrayIndexOutOfBoundsException.class})
     public ApiResponse exception(Exception ex) {
-        if (ex instanceof NullPointerException) {
-            ex.printStackTrace();
-        } else if (ex instanceof ClassCastException) {
-            ex.printStackTrace();
-        } else if (ex instanceof ArrayIndexOutOfBoundsException) {
-            ex.printStackTrace();
-        } else if (ex instanceof SystemException) {
-            //ex.printStackTrace();
-            return resultFormat((SystemException) ex);
-        } else {
-            ex.printStackTrace();
-        }
-        if (ex.getMessage() != null) {
-            return resultFormat(new SystemException(ex.getMessage()));
-        }
-        return resultFormat(new SystemException());
-    }
-
-    private <T extends Throwable> ApiResponse resultFormat(T ex) {
-        return resultFormat(ApiResponse.FAIL_CODE, ex);
-    }
-
-    private <T extends Throwable> ApiResponse resultFormat(Integer code, T ex) {
-        return new ApiResponse(code, ex.getMessage());
+        ex.printStackTrace();
+        return new ApiResponse( ex.getMessage());
     }
 }

@@ -8,8 +8,6 @@ import com.cp.app.core.comm.security.component.SystemFilterInvocationSecurityMet
 import com.cp.app.core.comm.security.filter.JWTAuthenticationFilter;
 import com.cp.app.core.comm.security.filter.JWTAuthorizationFilter;
 import com.cp.app.core.comm.security.handler.SystemAccessDeniedHandler;
-import com.cp.app.core.comm.security.handler.SystemAuthenticationFailureHandler;
-import com.cp.app.core.comm.security.handler.SystemAuthenticationSuccessHandler;
 import com.cp.app.core.comm.security.handler.SystemLogoutSuccessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,22 +37,17 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
     /**
-     * 需要放行的URL
+     * 需要放行的URL集合
      */
     private static final String[] AUTH_WHITELIST = {"/login.html"};
-
     @Autowired
     private SystemUserDetailsService systemUserDetailsService;
-
     //根据一个url请求，获得访问它所需要的roles权限
     @Autowired
     private SystemFilterInvocationSecurityMetadataSource systemFilterInvocationSecurityMetadataSource;
-
     //接收一个用户的信息和访问一个url所需要的权限，判断用户是否可以访问
     @Autowired
     private SystemAccessDecisionManager systemAccessDecisionManager;
-
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 

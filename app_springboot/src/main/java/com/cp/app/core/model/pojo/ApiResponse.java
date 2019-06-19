@@ -23,7 +23,6 @@ public class ApiResponse<T> {
     }
     public ApiResponse(String message) {
         this.resCode = this.FAIL_CODE;
-        this.resMessage = this.FAIL_MSG;
         this.resMessage = message;
     }
     public ApiResponse(T data) {

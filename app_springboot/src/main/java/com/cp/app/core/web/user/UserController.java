@@ -1,11 +1,11 @@
 package com.cp.app.core.web.user;
 
-import com.cp.app.core.api.UserApi;
+import com.cp.app.core.comm.api.UserApi;
 import com.cp.app.core.model.bean.SysUser;
 import com.cp.app.core.model.pojo.ApiResponse;
-import com.cp.app.core.service.user.UserService;
-import com.cp.app.core.web.AbstractController;
+import com.cp.app.core.comm.basics.BasicsController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @createdate 2019/2/14 星期四 14:15
  */
 @RestController
-public class UserController extends AbstractController implements UserApi {
+public class UserController extends BasicsController implements UserApi {
 
     @Autowired
-    private UserService service;
+    private UserApi userService;
 
-    @Override
+    @GetMapping("/api/user/getUserInfo")
     public ApiResponse<SysUser> getUserInfo(String username) {
-        return service.getUserInfo(username);
+        return userService.getUserInfo(username);
     }
 
 }

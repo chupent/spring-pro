@@ -20,10 +20,7 @@ import java.util.List;
  * @author chupengtang
  * @version 1.0
  * @ClassName SysFilterInvocationSecurityMetadataSource
- * @Description TODO
- * 实现FilterInvocationSecurityMetadataSource这个接口，
- * 供系统调用，放在Component包中。作用是在用户请求一个地址的时候，
- * 截获这个地址，告诉程序访问这个地址需要哪些权限角色
+ * @Description TODO 实现FilterInvocationSecurityMetadataSource这个接口供系统调用，放在Component包中。作用是在用户请求一个地址的时候，截获这个地址，告诉程序访问这个地址需要哪些权限角色
  * @createdate 2019/2/21 星期四 10:14
  */
 @Component

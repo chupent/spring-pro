@@ -1,5 +1,6 @@
 package com.cp.app.core.web;
 
+import com.cp.app.core.comm.basics.BasicsController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("api")
-public class TemplatesController {
+public class TemplatesController extends BasicsController {
     @GetMapping("/login")
     public String pageLogin() {
         return "/login";

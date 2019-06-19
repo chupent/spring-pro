@@ -1,4 +1,4 @@
-package com.cp.app.core.web;
+package com.cp.app.core.comm.basics;
 
 /**
  * @author chupengtang
@@ -7,6 +7,6 @@ package com.cp.app.core.web;
  * @Description TODO
  * @createdate 2019/2/14 星期四 14:14
  */
-public abstract class AbstractController {
+public abstract class BasicsController {
 
 }
