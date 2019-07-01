@@ -2,11 +2,12 @@ package com.cp.app.core.comm.security.handler;
 
 import com.cp.app.core.comm.security.JwtsUtil;
 import com.cp.app.core.comm.security.ResultDispose;
+import com.cp.app.core.comm.security.authentiation.SystemUserDetails;
+import com.cp.app.core.comm.security.authentiation.UsernamePasswordCodeAuthenticationToken;
 import com.cp.app.core.model.pojo.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 
@@ -29,20 +30,21 @@ public class SystemAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         logger.info("登录成功!");
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String token = null;
         try {
-
+            UsernamePasswordCodeAuthenticationToken authenticationToken = (UsernamePasswordCodeAuthenticationToken) authentication;
+            SystemUserDetails systemUserDetails = (SystemUserDetails) authenticationToken.getUserDetails();
             token = JwtsUtil.buildToken(authentication.getName(),30);
 
             // 登录成功后，返回token到header里面
             response.addHeader("Authorization", token);
             response.setContentType("application/json;charset=utf-8");
 
-
             Map<String, Object> map = new HashMap<>();
             map.put("Authorization", token);
-            map.put("authorities", authorities);
+            map.put("userInfo", systemUserDetails.getUser());
+            map.put("roles",  systemUserDetails.getRoles());
+
             ApiResponse<Map<String, Object>> apiResponse = new ApiResponse<Map<String, Object>>(map);
             apiResponse.setResData(map);
             ResultDispose.toJsonResult(response.getOutputStream(),apiResponse);

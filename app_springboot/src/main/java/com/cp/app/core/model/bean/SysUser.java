@@ -1,6 +1,7 @@
 package com.cp.app.core.model.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,20 +20,31 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class SysUser {
     @Id
+    @JsonIgnore
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
     private String account;
+    @JsonIgnore
     private String password;
+
     @Column(name = "user_name")
     private String userName;
+
+    @JsonIgnore
     private String token;
-    @Column(name = "device_id")
-    private String deviceId;
+
     @Column(name = "header_url")
     private String headerUrl;
-    @Column(name = "update_date")
+
+    @JsonIgnore
+    @Column(name = "device_id")
+    private String deviceId;
+
+    @JsonIgnore
     @CreatedDate
+    @Column(name = "update_date")
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date updateDate;
 

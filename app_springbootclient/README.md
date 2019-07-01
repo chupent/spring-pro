@@ -47,6 +47,15 @@ npm run build --report
 3、启动项目：npm run dev
 ```
 
+##<<安装异常解决办法>>
+``` 
+Unexpected end of JSON input while parsing near '...,"version":"0.5.1","d'
+1、使用如下指令，清除npm编译的一些缓存 ：npm cache clean --force
+2、重新执行安装依赖命令：npm install
+3、如果不行：换个镜像重来（npm set registry https://registry.npmjs.org/）
+
+```
+
 ##<<其他>>
 ``` bash
 vue-cli安装: https://cn.vuejs.org/v2/guide/installation.html

@@ -24,7 +24,7 @@ public class ResultDispose {
      */
     public static<T> void toJsonResult(OutputStream os,T t){
         try {
-            new MappingJackson2HttpMessageConverter().getObjectMapper().writeValue(new OutputStreamWriter(os,"UTF-8"),t);
+            new MappingJackson2HttpMessageConverter().getObjectMapper().writeValue(new OutputStreamWriter(os,"utf-8"),t);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JsonGenerationException e) {

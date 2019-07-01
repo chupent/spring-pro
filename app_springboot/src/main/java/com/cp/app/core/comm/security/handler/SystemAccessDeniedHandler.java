@@ -36,7 +36,7 @@ public class SystemAccessDeniedHandler implements AccessDeniedHandler {
             response.setContentType("application/json;charset=utf-8");
             response.setCharacterEncoding("utf-8");
         }
-        ApiResponse<String> apiResponse = new ApiResponse<String>(HttpServletResponse.SC_UNAUTHORIZED, accessDeniedException.getMessage());
+        ApiResponse<String> apiResponse = new ApiResponse<String>(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
         ResultDispose.toJsonResult(response.getOutputStream(),apiResponse);
     }
 }

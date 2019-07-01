@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       // 解决跨域问题
       '/wx':{
-        target:'http://localhost:8081',
+        target:'http://localhost:8088',
         changeOrigin:true,
         pathRewrite:{
           '^/wx':''

@@ -45,9 +45,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         logger.info("进入doFilterInternal方法");
-        String header = request.getHeader("Authorization");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET,POST");
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request,response);
         if(null!=authentication) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -59,7 +56,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader("Authorization");
         String message = ApiResponse.FAIL_MSG;
         String username = null;
-
         try {
             username = JwtsUtil.getUserName(token);
             if (username != null) {
@@ -73,7 +69,10 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             logger.info("无效的Token：" + e.getMessage());
             message = "无效的Token";
         }
-        ResultDispose.toJsonResult(response.getOutputStream(),new ApiResponse(ApiResponse.FAIL_CODE, message));
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        response.setCharacterEncoding("utf-8");
+        ResultDispose.toJsonResult(response.getOutputStream(),new ApiResponse(403, message));
         return null;
     }
 }

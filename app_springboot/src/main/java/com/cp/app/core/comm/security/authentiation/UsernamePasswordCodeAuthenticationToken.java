@@ -2,6 +2,7 @@ package com.cp.app.core.comm.security.authentiation;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
@@ -18,11 +19,12 @@ public class UsernamePasswordCodeAuthenticationToken extends UsernamePasswordAut
      * 验证码
      */
     private String code;
+    private UserDetails userDetails;
 
-    public UsernamePasswordCodeAuthenticationToken(Object principal, Object credentials) {
+    public UsernamePasswordCodeAuthenticationToken(Object principal, Object credentials, UserDetails userDetails) {
         super(principal, credentials);
+        this.userDetails = userDetails;
     }
-
     public UsernamePasswordCodeAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
         super(principal, credentials, authorities);
     }
@@ -34,5 +36,12 @@ public class UsernamePasswordCodeAuthenticationToken extends UsernamePasswordAut
 
     public String getCode() {
         return code;
+    }
+
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
     }
 }

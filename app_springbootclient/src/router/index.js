@@ -1,16 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main from '@/components/main-page'
-
 Vue.use(Router)
 
 const router =  new Router({
-  model:'history',//去点URL中的#
+  model:'history',
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      meta: {allowBack: false},//禁止后退标识
+      component: () => import('@//components/login-page.vue')
+    },
     {
       path: '/main',
       name: 'main',
-      component: main
+      meta: {allowBack: false},//禁止后退标识
+      component: () => import('@//components/main-page.vue')
+    },
+    {
+      path: '*',
+      name: '404',
+      meta: {allowBack: false},//禁止后退标识
+      component: () => import('@//components/404-page.vue')
     }
   ]
 })

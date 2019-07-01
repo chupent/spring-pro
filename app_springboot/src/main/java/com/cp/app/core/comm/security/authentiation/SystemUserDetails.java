@@ -19,30 +19,13 @@ import java.util.List;
  */
 public class SystemUserDetails implements UserDetails {
 
-    private String username;
-    private String password;
     private List<SysRole> roles;//包含着用户对应的所有Role，在使用时调用者给对象注入roles
+    private SysUser user;
 
-    public SystemUserDetails() {
 
-    }
-
-    public SystemUserDetails(SysUser user) {
-        this.username = user.getAccount();
-        this.password = user.getPassword();
-    }
 
     public SystemUserDetails(SysUser user, List<SysRole> roles) {
-        this.username = user.getAccount();
-        this.password = user.getPassword();
-        this.roles = roles;
-    }
-
-    public List<SysRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<SysRole> roles) {
+        this.user = user;
         this.roles = roles;
     }
 
@@ -55,14 +38,30 @@ public class SystemUserDetails implements UserDetails {
         return authorities;
     }
 
+    public void setRoles(List<SysRole> roles) {
+        this.roles = roles;
+    }
+
+    public void setUser(SysUser user) {
+        this.user = user;
+    }
+
+    public List<SysRole> getRoles() {
+        return roles;
+    }
+
+    public SysUser getUser() {
+        return user;
+    }
+
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getAccount();
     }
 
     @Override //判断账号是否已经过期，默认没有过期

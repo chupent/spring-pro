@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 需要放行的URL集合
      */
-    private static final String[] AUTH_WHITELIST = {"/login.html"};
+    private static final String[] AUTH_WHITELIST = {};
     @Autowired
     private SystemUserDetailsService systemUserDetailsService;
     //根据一个url请求，获得访问它所需要的roles权限
@@ -90,7 +90,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JWTAuthorizationFilter(authenticationManager())) //登录过滤器
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), systemUserDetailsService)) //验证过滤器
-
                 .logout() //默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/user/logout")
                 .logoutSuccessUrl("/user/login")// 设置注销成功后跳转页面，默认是跳转到登录页面;

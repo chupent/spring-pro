@@ -31,12 +31,14 @@ public class SystemSystemAuthenticationProvider implements AuthenticationProvide
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         logger.info("密码校验");
         String username = authentication.getName();
-        String password = authentication.getCredentials().toString();
+        String password = String.valueOf(authentication.getCredentials());
+
         SystemUserDetails sysUser = (SystemUserDetails) systemUserDetailsService.loadUserByUsername(username);
         if (sysUser != null) {
             if (passwordEncoder.matches(password, sysUser.getPassword())) {
-                Authentication auth = new UsernamePasswordCodeAuthenticationToken(username, password, sysUser.getAuthorities());
-                return auth;
+                UsernamePasswordCodeAuthenticationToken authenticationToken = (UsernamePasswordCodeAuthenticationToken) authentication;
+                authenticationToken.setUserDetails(sysUser);
+                return authenticationToken;
             } else {
                 throw new BadCredentialsException("密码错误");
             }
