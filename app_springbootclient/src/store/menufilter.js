@@ -12,12 +12,21 @@ export default (routers,data) => {
 
 function generaMenu(routers,data) {
   data.forEach((item)=>{
-    let menu = Object.assign({},item)
-    menu.component = lazy(menu.component)
-    if(item.children){
-      menu.children = []
-      generaMenu(menu.children,item.children)
-    }
-    routers.push(menu)
+      var resurl=item.resUrl
+      if(resurl!=null&&resurl.length>0){
+        var names = resurl.split('/')
+        var name  = names[(names.length-1)]
+        var route={
+          path: '/'+resurl,
+          name: name,
+          component: lazy(resurl),
+          children:[]
+        }
+        routers.push(route)
+      }
+      var childResource = item.childResource;
+      if(childResource!=null){
+        generaMenu(routers,item.childResource)
+      }
   })
 }

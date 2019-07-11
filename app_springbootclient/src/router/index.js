@@ -20,7 +20,6 @@ const router =  new Router({
     {
       path: '*',
       name: '404',
-      meta: {allowBack: false},//禁止后退标识
       component: () => import('@//components/404-page.vue')
     }
   ]

@@ -4,6 +4,7 @@ import com.cp.app.core.comm.security.JwtsUtil;
 import com.cp.app.core.comm.security.ResultDispose;
 import com.cp.app.core.comm.security.authentiation.SystemUserDetails;
 import com.cp.app.core.comm.security.authentiation.UsernamePasswordCodeAuthenticationToken;
+import com.cp.app.core.model.bean.SysResource;
 import com.cp.app.core.model.pojo.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 /**
  * @author chupengtang
@@ -43,7 +46,9 @@ public class SystemAuthenticationSuccessHandler implements AuthenticationSuccess
             Map<String, Object> map = new HashMap<>();
             map.put("Authorization", token);
             map.put("userInfo", systemUserDetails.getUser());
-            map.put("roles",  systemUserDetails.getRoles());
+
+            List<SysResource> list = this.queryMenus(systemUserDetails.getSysResources(),"0");
+            map.put("resources",  list);
 
             ApiResponse<Map<String, Object>> apiResponse = new ApiResponse<Map<String, Object>>(map);
             apiResponse.setResData(map);
@@ -51,5 +56,22 @@ public class SystemAuthenticationSuccessHandler implements AuthenticationSuccess
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     *
+     * @param roots 原始数据
+     */
+    public List<SysResource> queryMenus(List<SysResource> roots,String arg){
+        //查找根节点
+        List<SysResource> menuList = roots.stream().filter(p->arg.equals(p.getResPrant())).collect(Collectors.toList());
+        if(menuList.size()==0){
+            return null;
+        }
+        //递归设置子菜单
+        menuList.forEach(p->{
+            p.setChildResource(this.queryMenus(roots,p.getResId()+""));
+        });
+        return menuList;
     }
 }

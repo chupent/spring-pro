@@ -1,7 +1,9 @@
 package com.cp.app.core.comm.security.authentiation;
 
+import com.cp.app.core.dao.jpa.SysResourceRepository;
 import com.cp.app.core.dao.jpa.SysRoleRepository;
 import com.cp.app.core.dao.jpa.SysUserRepository;
+import com.cp.app.core.model.bean.SysResource;
 import com.cp.app.core.model.bean.SysRole;
 import com.cp.app.core.model.bean.SysUser;
 import org.slf4j.Logger;
@@ -29,6 +31,8 @@ public class SystemUserDetailsService implements UserDetailsService {
     private SysUserRepository userRepository;
     @Autowired
     private SysRoleRepository sysRoleRepository;
+    @Autowired
+    private SysResourceRepository sysResourceRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,6 +40,7 @@ public class SystemUserDetailsService implements UserDetailsService {
         SysUser sysUser = userRepository.findByAccount(username);
         if (null == sysUser) throw new UsernameNotFoundException("用户名不存在");
         List<SysRole> sysRoles = sysRoleRepository.findSysRoleOfUserId(sysUser.getUserId());
-        return new SystemUserDetails(sysUser, sysRoles);
+        List<SysResource> sysResources = sysResourceRepository.findByUserId(sysUser.getUserId());
+        return new SystemUserDetails(sysUser, sysRoles,sysResources);
     }
 }

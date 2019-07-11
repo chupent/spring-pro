@@ -1,9 +1,7 @@
 package com.cp.app.core.model.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author chupengtang
@@ -20,8 +18,17 @@ public class SysResource {
     private Long resId;
     @Column(name = "res_name")
     private String resName;
+    @Column(name = "res_is_hef")
+    private int resIsHef;
     @Column(name = "res_url")
     private String resUrl;
+    @Column(name = "res_icon")
+    private String resIcon;
+    @Column(name = "res_prant")
+    private String resPrant;
+
+    @Transient
+    private List<SysResource> childResource;
 
     public Long getResId() {
         return resId;
@@ -45,5 +52,37 @@ public class SysResource {
 
     public void setResUrl(String resUrl) {
         this.resUrl = resUrl;
+    }
+
+    public int getResIsHef() {
+        return resIsHef;
+    }
+
+    public void setResIsHef(int resIsHef) {
+        this.resIsHef = resIsHef;
+    }
+
+    public String getResIcon() {
+        return resIcon;
+    }
+
+    public void setResIcon(String resIcon) {
+        this.resIcon = resIcon;
+    }
+
+    public String getResPrant() {
+        return resPrant;
+    }
+
+    public void setResPrant(String resPrant) {
+        this.resPrant = resPrant;
+    }
+
+    public List<SysResource> getChildResource() {
+        return childResource;
+    }
+
+    public void setChildResource(List<SysResource> childResource) {
+        this.childResource = childResource;
     }
 }

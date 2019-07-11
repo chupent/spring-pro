@@ -9,41 +9,28 @@
           <el-dropdown-item><el-link @click="logout">退出</el-link></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <span>王小虎</span>
+      <span>{{userData.userInfo.userName}}</span>
     </el-header>
+
     <el-container>
       <!--菜单-->
       <el-aside width="200px">
-        <el-menu :default-openeds="['1', '3']">
-          <el-submenu index="1">
-            <template slot="title"><i class="el-icon-message"></i>导航一</template>
-            <el-menu-item-group>
-              <template slot="title">分组一</template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-
-            <el-submenu index="1-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="1-4-1">选项4-1</el-menu-item>
-            </el-submenu>
-          </el-submenu>
+        <el-menu>
+          <menupage :menusData="userData.resources"></menupage>
         </el-menu>
       </el-aside>
 
       <el-main class="app_main">
+        <!--面包屑-->
         <el-row class="breadcrumb">
           <el-breadcrumb separator-class="el-icon-arrow-right" class="nat">
             <el-breadcrumb-item :to="{ path: '/main' }">首页</el-breadcrumb-item>
-
             <el-breadcrumb-item>活动管理</el-breadcrumb-item>
             <el-breadcrumb-item>活动列表</el-breadcrumb-item>
             <el-breadcrumb-item>活动详情</el-breadcrumb-item>
           </el-breadcrumb>
         </el-row>
+
         <el-row class="conent">
           <!--路由页面-->
           <el-table :data="tableData">
@@ -61,7 +48,11 @@
 </template>
 
 <script>
+  import menupage from './menu-page.vue'
   export default {
+    components: {
+      menupage
+    },
     data () {
       const item = {
         date: '2016-05-02',
@@ -69,15 +60,10 @@
         address: '上海市普陀区金沙江路 1518 弄'
       };
       return {
-        userifo: JSON.parse(window.localStorage.getItem("userinfo")),
+        userData: JSON.parse(window.sessionStorage.getItem("userinfo")),
         tableData: Array(10).fill(item)
       }
-    },created(){
-      this.initdate()
     },methods:{
-      initdate:function(){
-        console.log(this.userifo)
-      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },

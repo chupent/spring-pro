@@ -17,8 +17,8 @@ Vue.use(ElementUI)
 
 //动态路由防止用户刷新丢失
 if (sessionStorage.getItem('userinfo')) {
-  let routes = JSON.parse(sessionStorage.getItem('routes'))
-  store.dispatch("add_Routes", routes)
+  let routes = JSON.parse(sessionStorage.getItem('userinfo'))
+  store.dispatch("add_Routes", routes.resources)
 }
 //路由全局判断是否登录
 router.beforeEach((to, from , next) => {

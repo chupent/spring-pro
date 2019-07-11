@@ -39,7 +39,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 需要放行的URL集合
      */
-    private static final String[] AUTH_WHITELIST = {};
+    private static final String[] AUTH_WHITELIST = {
+            "/api/user/qRCodeLogin",
+            "/api/user/getQRCode"
+    };
     @Autowired
     private SystemUserDetailsService systemUserDetailsService;
     //根据一个url请求，获得访问它所需要的roles权限

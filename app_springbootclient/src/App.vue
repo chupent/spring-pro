@@ -16,7 +16,7 @@ export default {
       direction: "slide-right"
     }
   },created(){
-    // this.checkLogin()//获取用户信息
+
   },mounted(){
     //某些也面禁止后退
     window.onpopstate = () => {

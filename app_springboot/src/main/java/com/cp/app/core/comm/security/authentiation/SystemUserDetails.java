@@ -1,5 +1,6 @@
 package com.cp.app.core.comm.security.authentiation;
 
+import com.cp.app.core.model.bean.SysResource;
 import com.cp.app.core.model.bean.SysRole;
 import com.cp.app.core.model.bean.SysUser;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,13 +21,17 @@ import java.util.List;
 public class SystemUserDetails implements UserDetails {
 
     private List<SysRole> roles;//包含着用户对应的所有Role，在使用时调用者给对象注入roles
+    private List<SysResource> sysResources;
     private SysUser user;
-
-
 
     public SystemUserDetails(SysUser user, List<SysRole> roles) {
         this.user = user;
         this.roles = roles;
+    }
+    public SystemUserDetails(SysUser user, List<SysRole> roles,List<SysResource> sysResources) {
+        this.user = user;
+        this.roles = roles;
+        this.sysResources = sysResources;
     }
 
     @Override //返回用户所有角色的封装，一个Role对应一个GrantedAuthority
@@ -36,6 +41,14 @@ public class SystemUserDetails implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
         return authorities;
+    }
+
+    public List<SysResource> getSysResources() {
+        return sysResources;
+    }
+
+    public void setSysResources(List<SysResource> sysResources) {
+        this.sysResources = sysResources;
     }
 
     public void setRoles(List<SysRole> roles) {
