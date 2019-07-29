@@ -45,7 +45,7 @@ public class WeChatAuthorizationFilter extends OncePerRequestFilter {
         OauthAccessToken token = (OauthAccessToken) session.getAttribute("OauthAccessToken");
         if (token==null||StringUtils.isEmpty(token.getOpenid())){//未授权，发起授权
             requestWrapper.saveRequestBody();
-            //response.sendRedirect(oauthApi.getCode());//重定向微信授权服务器
+//            response.sendRedirect(Wechat.OAUTH_API.getCode());//重定向微信授权服务器
             request.getRequestDispatcher(Wechat.OAUTH_API.getCode()).forward(requestWrapper, responseWrapper);//转发微信授权服务器
             return;
         }

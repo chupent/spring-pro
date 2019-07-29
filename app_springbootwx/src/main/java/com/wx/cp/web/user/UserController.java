@@ -28,7 +28,6 @@ public class UserController extends RootController implements UserApi {
         //此方法会在每次请求前调用（这个类的处理方法）
     }
 
-    @GetMapping("/user/userinfo")
     public  ResultOut<UserBean> userinfo() {
         return userService.userinfo();
     }

@@ -1,8 +1,5 @@
 package com.cp.app.core.comm.basics;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  * @author chupengtang
  * @version 1.0

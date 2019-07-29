@@ -3,15 +3,14 @@ import App from './App'
 import router from './router'
 import ElementUI from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css'
-import apivar from './assets/js/net/api'
-import {fetch,post} from './assets/js/net/http'
-import store from './store/store'
+import store from './assets/js/store/store'
+import {postRequest,postJsonRequest,getRequest} from './assets/js/net/http'
+
+Vue.prototype.$postRequest = postRequest;
+Vue.prototype.$postJsonRequest = postJsonRequest;
+Vue.prototype.$getRequest = getRequest;
 
 
-Vue.config.productionTip = false
-Vue.prototype.$api=apivar.api;
-Vue.prototype.$post=post;
-Vue.prototype.$fetch=fetch;
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 
@@ -37,9 +36,9 @@ router.beforeEach((to, from , next) => {
     if (!allowBack) {
       history.pushState(null, null, location.href)
     }
-    store.dispatch('updateAppSetting', {
-      allowBack: allowBack
-    })
+    // store.dispatch('updateAppSetting', {
+    //   allowBack: allowBack
+    // })
   }
 })
 

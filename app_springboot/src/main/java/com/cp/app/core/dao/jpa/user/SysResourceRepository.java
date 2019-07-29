@@ -1,4 +1,4 @@
-package com.cp.app.core.dao.jpa;
+package com.cp.app.core.dao.jpa.user;
 
 import com.cp.app.core.model.bean.SysResource;
 import org.springframework.data.jpa.repository.JpaRepository;

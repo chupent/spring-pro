@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * 需要放行的URL集合
      */
     private static final String[] AUTH_WHITELIST = {
-            "/api/user/qRCodeLogin",
+            "/api/user/getQRCodeLogin",
             "/api/user/getQRCode"
     };
     @Autowired

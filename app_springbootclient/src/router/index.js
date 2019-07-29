@@ -12,12 +12,6 @@ const router =  new Router({
       component: () => import('@//components/login-page.vue')
     },
     {
-      path: '/main',
-      name: 'main',
-      meta: {allowBack: false},//禁止后退标识
-      component: () => import('@//components/main-page.vue')
-    },
-    {
       path: '*',
       name: '404',
       component: () => import('@//components/404-page.vue')

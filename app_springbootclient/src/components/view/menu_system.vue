@@ -1,5 +1,6 @@
 <template>
-
+  <div class="app_content">
+  </div>
 </template>
 
 <script>
@@ -9,5 +10,4 @@
 </script>
 
 <style scoped>
-
 </style>

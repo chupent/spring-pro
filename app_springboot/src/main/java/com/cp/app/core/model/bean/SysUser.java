@@ -1,5 +1,6 @@
 package com.cp.app.core.model.bean;
 
+import com.cp.app.core.model.bean.attr.DateAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,35 +21,49 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class SysUser {
     @Id
-    @JsonIgnore
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     private String account;
-    @JsonIgnore
+    @JsonIgnore //忽略值
     private String password;
 
     @Column(name = "user_name")
     private String userName;
 
-    @JsonIgnore
+    @JsonIgnore //忽略值
     private String token;
 
     @Column(name = "header_url")
     private String headerUrl;
 
-    @JsonIgnore
+
     @Column(name = "device_id")
     private String deviceId;
 
-    @JsonIgnore
-    @CreatedDate
     @Column(name = "update_date")
+    @Convert(converter = DateAttributeConverter.class)
+    private String updateDate;
+
+    @Column(name = "create_date")
+    @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date updateDate;
+    private Date createDate;
 
+    public SysUser() {
 
+    }
+    public SysUser(Long userId, String account, String userName, String token, String headerUrl, String deviceId, String updateDate, Date createDate) {
+        this.userId = userId;
+        this.account = account;
+        this.userName = userName;
+        this.token = token;
+        this.headerUrl = headerUrl;
+        this.deviceId = deviceId;
+        this.updateDate = updateDate;
+        this.createDate = createDate;
+    }
     public Long getUserId() {
         return userId;
     }
@@ -105,12 +120,19 @@ public class SysUser {
         this.headerUrl = headerUrl;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }

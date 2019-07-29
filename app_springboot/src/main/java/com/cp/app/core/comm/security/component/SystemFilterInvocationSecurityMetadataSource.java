@@ -1,7 +1,7 @@
 package com.cp.app.core.comm.security.component;
 
-import com.cp.app.core.dao.jpa.SysResourceRepository;
-import com.cp.app.core.dao.jpa.SysRoleRepository;
+import com.cp.app.core.dao.jpa.user.SysResourceRepository;
+import com.cp.app.core.dao.jpa.user.SysRoleRepository;
 import com.cp.app.core.model.bean.SysResource;
 import com.cp.app.core.model.bean.SysRole;
 import org.slf4j.Logger;
@@ -42,7 +42,14 @@ public class SystemFilterInvocationSecurityMetadataSource implements FilterInvoc
         if (url.indexOf("login") == 1) {
             return null;
         }
-        String path = url.substring(0,url.indexOf("?"));
+        int index = url.indexOf("?");
+        String path = null;
+        if(index>0){
+            path = url.substring(0,url.indexOf("?"));
+        }else{
+            path = url;
+        }
+
 
         //使用访问的地址到权限数据库中查找
         SysResource sysResource = sysResourceRepository.findByResUrl(path);

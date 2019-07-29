@@ -70,3 +70,24 @@ ssh2文档: https://github.com/mscdex/ssh2
 ssh2方法封装: http://blog.csdn.net/llmys/article/details/52860816?locationNum=2&fps=1
 js-cookie文档: https://github.com/js-cookie/js-cookie
 ```
+created:html加载完成之前，执行。执行顺序：父组件-子组件
+
+mounted:html加载完成后执行。执行顺序：子组件-父组件
+
+methods：事件方法执行
+
+watch：watch是去监听一个值的变化，然后执行相对应的函数。
+
+computed：computed是计算属性，也就是依赖其它的属性计算所得出最后的值
+
+activated：在vue对象存活的情况下，进入当前存在activated()函数的页面时，一进入页面就触发；可用于初始化页面数据等
+beforeUpdate()
+updated()
+
+父组件给子组件传值（props和$attrs）
+和父组件触发子组件的事件（$emit）
+
+父组调用子组件函数 this.$refs.pagetable.refData(this.param);//调用子组件的函数进行传值
+用法： 子组件上定义ref="refName",  父组件的方法中用 this.$refs.refName.method 去调用子组件方法
+详解： 父组件里面调用子组件的函数，父组件先把函数/方法以属性形式传给子组件；那么就需要先找到子组件对象 ，即  this.$refs.refName.
+然后再进行调用，也就是 this.$refs.refName.method

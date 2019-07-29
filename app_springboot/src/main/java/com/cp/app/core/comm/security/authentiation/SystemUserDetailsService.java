@@ -1,8 +1,8 @@
 package com.cp.app.core.comm.security.authentiation;
 
-import com.cp.app.core.dao.jpa.SysResourceRepository;
-import com.cp.app.core.dao.jpa.SysRoleRepository;
-import com.cp.app.core.dao.jpa.SysUserRepository;
+import com.cp.app.core.dao.jpa.user.SysResourceRepository;
+import com.cp.app.core.dao.jpa.user.SysRoleRepository;
+import com.cp.app.core.dao.jpa.user.SysUserRepository;
 import com.cp.app.core.model.bean.SysResource;
 import com.cp.app.core.model.bean.SysRole;
 import com.cp.app.core.model.bean.SysUser;

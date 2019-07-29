@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import addRoutes from './addRoutes'
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -9,5 +8,4 @@ const store = new Vuex.Store({
     addRoutes
   }
 })
-
 export default store

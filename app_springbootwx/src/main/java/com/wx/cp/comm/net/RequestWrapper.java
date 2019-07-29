@@ -65,6 +65,9 @@ public class RequestWrapper extends HttpServletRequestWrapper{
         };
     }
 
+    /**
+     * 保存参数列表
+     */
     public void saveRequestBody(){
         HttpServletRequest request = (HttpServletRequest)this.getRequest();
         request.getSession().setAttribute("requestBody",this.requestBody);

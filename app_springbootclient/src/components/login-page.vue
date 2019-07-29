@@ -23,12 +23,12 @@
             <el-input type="password" v-model="password"auto-complete="off" placeholder="密码"></el-input>
           </el-form-item>
           <el-form-item style="width: 100%">
-            <el-button type="primary" style="width: 100%" @click="submitClick">登录</el-button>
+            <el-button type="primary" style="width: 100%" :loading="loading" @click="submitClick">{{!loading?'登录':'正在登陆中..'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="class_1" :hidden="!loginType">
-        <el-image :src="'data:image/png;base64,'+image" @click="getQRCode" style="width: 150px;height: 150px"/>
+        <el-image :src="'data:image/png;base64,'+image" @click="refQRCode" style="width: 150px;height: 150px"/>
       </div>
     </div>
   </div>
@@ -43,42 +43,37 @@
           loginType:false,
           username:"15721539459",
           password:"admin",
-          image:""
+          image:"",
+          loading:false
         }
       },methods:{
         ...mapActions({add_Routes: 'add_Routes'}),
         submitClick(){
+          this.loading=true
           //参数方式一
           var paramter = new URLSearchParams()
           paramter.append('username',this.username)
           paramter.append('password',this.password)
-          this.$post(this.$api.login,paramter).then((res)=>{
-            console.log(res)
-            if(200==res.resCode){
-              var userinfo = JSON.stringify(res.resData)
-              sessionStorage.setItem("userinfo",userinfo)
-              this.add_Routes(res.resData.resources);
-            }else {
-              alert(res.resMessage)
+          this.$postRequest('/login',paramter).then(res=>{
+            this.loading=false
+            if(undefined!=res&&null!=res){
+              sessionStorage.setItem("userinfo",JSON.stringify(res))
+              this.add_Routes(res.resources);
             }
           })
         },
         openQRCode(){
           if(this.loginType){
-            this.loginType = false;
+            this.loginType = false
           }else {
-            this.loginType = true;
-            this.getQRCode();
+            this.loginType = true
+            this.refQRCode()
           }
         },
-        getQRCode(){
-          var timestamp = (new Date()).valueOf();
-          this.$fetch(this.$api.getQRCode,{time:timestamp}).then((res)=>{
-            console.log(res)
-            if(200==res.resCode){
-              this.image = res.resData;
-            }
-          });
+        refQRCode(){
+          this.$getRequest('/api/user/getQRCode',{time:(new Date()).valueOf()}).then(res=>{
+            this.image = res
+          })
         }
       }
     }
